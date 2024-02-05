@@ -3,6 +3,7 @@ import Root from "./Root";
 import Main from "./components/Main/Main";
 import Action from "./components/Action/Action";
 import Click from "./components/Click/Click";
+import Move from "./components/Move/Move";
 
 function App() {
   const router = createBrowserRouter([
@@ -21,6 +22,10 @@ function App() {
         {
           path: "/Click",
           element: <Click />,
+        },
+        {
+          path: "/Move",
+          element: <Move />,
         },
       ],
     },

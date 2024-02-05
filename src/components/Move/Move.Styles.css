@@ -1,0 +1,32 @@
+.move__layout {
+  width: 65%;
+  height: 65%;
+
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #676f9d;
+  border-radius: 20px;
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.move__map {
+  width: 100%;
+  height: 80%;
+
+  border-radius: 20px;
+
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.path {
+  margin-top: 40px;
+  font-size: 24px;
+  font-weight: 800;
+
+  color: #fff;
+}

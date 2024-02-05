@@ -13,6 +13,7 @@ const Click = () => {
   const [showMarker, setShowMarker] = useState(true);
   const [markerPoint, setMarkerPoint] = useState<MarkerPoint[]>([]);
 
+  const geo = new kakao.maps.services.Geocoder();
   // 해당 함수 내부에서 마커 + 경로 를 동시에 추가함
   const insertMarker = ({ latLng }: kakao.maps.event.MouseEvent) => {
     const accept = confirm("마커를 추가");
@@ -27,6 +28,16 @@ const Click = () => {
     ]);
   };
 
+  const findAddr = ({ latLng }: kakao.maps.event.MouseEvent) => {
+    geo.coord2RegionCode(latLng.getLng(), latLng.getLat(), (result, status) => {
+      if (status !== kakao.maps.services.Status.OK) {
+        return;
+      }
+
+      console.log(result[0]);
+    });
+  };
+
   return (
     <article className="main__layout">
       <Map
@@ -35,6 +46,7 @@ const Click = () => {
         level={3}
         onClick={(_, mouseEvent) => {
           insertMarker(mouseEvent);
+          findAddr(mouseEvent);
         }}
       >
         {showMarker &&
