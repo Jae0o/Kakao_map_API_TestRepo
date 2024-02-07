@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Main.Styles.css";
 import { Map, Polyline, useKakaoLoader } from "react-kakao-maps-sdk";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 
 interface MarkerPoint {
   lat: number;
@@ -47,7 +47,7 @@ const Main = () => {
   //   setFetchCount((count) => count + 1);
   // };
 
-  const throttleSuccess = throttle(({ coords }: GeolocationPosition) => {
+  const throttleSuccess = debounce(({ coords }: GeolocationPosition) => {
     setPosition({
       lat: coords.latitude,
       lng: coords.longitude,
