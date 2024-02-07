@@ -46,11 +46,16 @@ const Main = () => {
     console.log(error);
   };
 
-  navigator.geolocation.watchPosition(success, error, {
-    enableHighAccuracy: true,
-    maximumAge: 10,
-    timeout: 5000,
-  });
+  navigator.geolocation.watchPosition(
+    (geo) => {
+      success(geo);
+    },
+    error,
+    {
+      enableHighAccuracy: true,
+      maximumAge: 10,
+    }
+  );
 
   return (
     <>
