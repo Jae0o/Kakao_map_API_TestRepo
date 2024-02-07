@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Main.Styles.css";
 import { Map, Polyline, useKakaoLoader } from "react-kakao-maps-sdk";
+import { throttle } from "lodash";
 
 interface MarkerPoint {
   lat: number;
@@ -8,7 +9,10 @@ interface MarkerPoint {
 }
 
 const Main = () => {
-  const [position, setPosition] = useState({ lat: 33.450701, lng: 126.570667 });
+  const [position, setPosition] = useState({
+    lat: 33.450701,
+    lng: 126.570667,
+  });
   const [path, setPath] = useState<MarkerPoint[]>([]);
 
   const [fetchCount, setFetchCount] = useState(0);
@@ -29,7 +33,21 @@ const Main = () => {
     });
   });
 
-  const success = ({ coords }: GeolocationPosition) => {
+  // const success = ({ coords }: GeolocationPosition) => {
+  //   setPosition({
+  //     lat: coords.latitude,
+  //     lng: coords.longitude,
+  //   });
+
+  //   setPath((prev) => [
+  //     ...prev,
+  //     { lat: coords.latitude, lng: coords.longitude },
+  //   ]);
+
+  //   setFetchCount((count) => count + 1);
+  // };
+
+  const throttleSuccess = throttle(({ coords }: GeolocationPosition) => {
     setPosition({
       lat: coords.latitude,
       lng: coords.longitude,
@@ -41,16 +59,16 @@ const Main = () => {
     ]);
 
     setFetchCount((count) => count + 1);
-  };
+    console.log("동작함");
+  }, 5000);
 
   const error = (error: GeolocationPositionError) => {
     console.log(error);
     setErrorCount((state) => state + 1);
   };
 
-  navigator.geolocation.watchPosition(success, error, {
+  navigator.geolocation.watchPosition(throttleSuccess, error, {
     enableHighAccuracy: true,
-    maximumAge: 10000,
   });
 
   return (
@@ -68,7 +86,6 @@ const Main = () => {
           />
         </Map>
       </article>
-      <h1>{}</h1>
     </>
   );
 };
