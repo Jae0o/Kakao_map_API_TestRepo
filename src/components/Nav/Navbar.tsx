@@ -3,6 +3,7 @@ import "./Navbar.Styles.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+
   return (
     <nav className="nav">
       <button className="nav_button" onClick={() => navigate("/")}>
@@ -19,6 +20,10 @@ const Navbar = () => {
 
       <button className="nav_button" onClick={() => navigate("/Move")}>
         Move
+      </button>
+
+      <button className="nav_button" onClick={() => navigate("/Path")}>
+        Path Click
       </button>
     </nav>
   );
