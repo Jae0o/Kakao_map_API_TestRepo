@@ -21,3 +21,12 @@
 
   box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.5);
 }
+
+.count {
+  margin-bottom: 2rem;
+
+  color: white;
+
+  font-size: 3rem;
+  font-weight: 800;
+}
