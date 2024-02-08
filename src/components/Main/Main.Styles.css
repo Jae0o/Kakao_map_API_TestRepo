@@ -1,6 +1,6 @@
 .main__layout {
-  width: 65%;
-  height: 65%;
+  width: 90%;
+  flex-grow: 1;
 
   padding: 16px;
 
@@ -23,7 +23,7 @@
 }
 
 .count {
-  margin-bottom: 2rem;
+  margin: 2rem;
 
   color: white;
 

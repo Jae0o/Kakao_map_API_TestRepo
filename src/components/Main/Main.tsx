@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Main.Styles.css";
-import { Map, Polyline, useKakaoLoader } from "react-kakao-maps-sdk";
-import { throttle } from "lodash";
+import { Map, MapMarker, Polyline, useKakaoLoader } from "react-kakao-maps-sdk";
 
 interface MarkerPoint {
   lat: number;
   lng: number;
 }
 
+const geoOptions = {
+  enableHighAccuracy: true,
+};
+
 const Main = () => {
+  // 지도 center 를 표시해주는 Pin을 찍기위한 상태 - API 통신과는 무관
   const [position, setPosition] = useState({
     lat: 33.450701,
     lng: 126.570667,
   });
+
+  // 경로를 그리고 저장해서 API 에서 경록값을 보내기 위한 상태
   const [path, setPath] = useState<MarkerPoint[]>([]);
 
   const [fetchCount, setFetchCount] = useState(0);
@@ -26,50 +32,43 @@ const Main = () => {
     libraries: ["clusterer", "drawing", "services"],
   });
 
-  navigator.geolocation.getCurrentPosition(({ coords }) => {
-    setPosition({
-      lat: coords.latitude,
-      lng: coords.longitude,
-    });
-  });
+  useEffect(() => {
+    // Interval 로 현재 값을 5초에 한번 불러옴
+    const IntervalSuccess = ({ coords }: GeolocationPosition) => {
+      const newPosition = { lat: coords.latitude, lng: coords.longitude };
+      // 상태 추가
+      setPath((prevPath) => [
+        ...prevPath,
+        { lat: coords.latitude, lng: coords.longitude },
+      ]);
 
-  // const success = ({ coords }: GeolocationPosition) => {
-  //   setPosition({
-  //     lat: coords.latitude,
-  //     lng: coords.longitude,
-  //   });
+      setPosition(newPosition);
 
-  //   setPath((prev) => [
-  //     ...prev,
-  //     { lat: coords.latitude, lng: coords.longitude },
-  //   ]);
+      setFetchCount((prevFetchCount) => prevFetchCount + 1);
 
-  //   setFetchCount((count) => count + 1);
-  // };
+      console.log("interval", newPosition);
+    };
 
-  const throttleSuccess = throttle(({ coords }: GeolocationPosition) => {
-    setPosition({
-      lat: coords.latitude,
-      lng: coords.longitude,
-    });
+    // geolocation 동작중 오류 발생시 에러 카운트 추가
+    const error = () => {
+      setErrorCount((prevErrorCount) => prevErrorCount + 1);
+    };
 
-    setPath((prev) => [
-      ...prev,
-      { lat: coords.latitude, lng: coords.longitude },
-    ]);
+    const interval = setInterval(() => {
+      navigator.geolocation.getCurrentPosition(
+        IntervalSuccess,
+        error,
+        geoOptions
+      );
+    }, 3000);
 
-    setFetchCount((count) => count + 1);
-    console.log("동작함");
-  }, 15000);
+    return () => {
+      // 페이지 변깅시 삭제
+      clearInterval(interval);
 
-  const error = (error: GeolocationPositionError) => {
-    console.log(error);
-    setErrorCount((state) => state + 1);
-  };
-
-  navigator.geolocation.watchPosition(throttleSuccess, error, {
-    enableHighAccuracy: true,
-  });
+      // navigator.geolocation.clearWatch(check);
+    };
+  }, []);
 
   return (
     <>
@@ -84,6 +83,8 @@ const Main = () => {
             strokeColor={"#ff7f50"}
             strokeStyle={"solid"}
           />
+
+          <MapMarker position={position} />
         </Map>
       </article>
     </>
