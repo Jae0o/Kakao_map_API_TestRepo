@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Main.Styles.css";
+import "./MainGPS.Styles.css";
 import { Map, MapMarker, Polyline, useKakaoLoader } from "react-kakao-maps-sdk";
 
 interface MarkerPoint {
@@ -11,7 +11,7 @@ const geoOptions = {
   enableHighAccuracy: true,
 };
 
-const Main = () => {
+const MainGPS = () => {
   // 지도 center 를 표시해주는 Pin을 찍기위한 상태 - API 통신과는 무관
   const [position, setPosition] = useState({
     lat: 33.450701,
@@ -91,4 +91,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default MainGPS;

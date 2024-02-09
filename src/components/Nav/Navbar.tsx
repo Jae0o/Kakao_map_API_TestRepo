@@ -18,10 +18,6 @@ const Navbar = () => {
         Click Event
       </button>
 
-      <button className="nav_button" onClick={() => navigate("/Move")}>
-        Move
-      </button>
-
       <button className="nav_button" onClick={() => navigate("/Path")}>
         Path Click
       </button>

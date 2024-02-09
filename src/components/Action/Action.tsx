@@ -17,9 +17,10 @@ const Action = () => {
 
   // zoom 조작 여부 설정 가능 zoom able
 
-  // 정보 얻기
+  // Map ref 사용
   const mapRef = useRef<kakao.maps.Map>(null);
 
+  // center 좌표 얻어내기
   const getInfo = () => {
     const { current } = mapRef;
 
@@ -58,6 +59,7 @@ const Action = () => {
         draggable={draggable}
       />
 
+      {/*  */}
       <ul className="action__list">
         {/* 드래그 조작 컨트롤 */}
         <li className="action__item">

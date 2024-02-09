@@ -11,6 +11,7 @@ interface InfoMedalProps {
   position: MarkerPoint;
 }
 
+// custom pin Test
 const InfoMedal = ({ message, position }: InfoMedalProps) => {
   const [isClick, setIsClick] = useState(false);
 

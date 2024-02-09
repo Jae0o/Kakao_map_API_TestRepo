@@ -1,10 +1,9 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./Root";
-import Main from "./components/Main/Main";
 import Action from "./components/Action/Action";
 import Click from "./components/Click/Click";
-import Move from "./components/Move/Move";
 import Path from "./components/Path/Path";
+import MainGPS from "./components/Main/MainGPS";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,7 +13,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <Main />,
+          element: <MainGPS />,
         },
         {
           path: "/Action",
@@ -23,10 +22,6 @@ function App() {
         {
           path: "/Click",
           element: <Click />,
-        },
-        {
-          path: "/Move",
-          element: <Move />,
         },
         {
           path: "/Path",
